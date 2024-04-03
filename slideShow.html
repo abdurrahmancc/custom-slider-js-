@@ -253,6 +253,49 @@
 			indicators();
 		}
 
+
+		// Update slide position based on counter
+		function updateSlidePosition() {
+			const slideWidth = slideImages[0].clientWidth;
+			const offset = -counter * slideWidth;
+			document.querySelector('.slides').style.transform = `translateX(${offset}px)`;
+			indicators();
+		}
+
+		// Variables to track mouse drag
+		let isDragging = false;
+		let startX;
+		let lastX = 0;
+
+		// // Add event listener for mouse down to start dragging
+		document.querySelector('.slides').addEventListener('mousedown', (e) => {
+			isDragging = true;
+			startX = e.clientX;
+			lastX = startX;
+		});
+
+		// Add event listener for mouse move to handle dragging
+		document.addEventListener('mousemove', (e) => {
+			if (!isDragging) return;
+			const x = e.clientX;
+			const dx = x - lastX;
+			lastX = x;
+			if (dx > 10) { // Adjust threshold as needed
+				slidePrev();
+				isDragging = false
+				console.log('pre')
+			} else if (dx < -10) { // Adjust threshold as needed
+				slideNext();
+				isDragging = false
+				console.log('next')
+			}
+		});
+
+		// // Add event listener for mouse up to stop dragging
+		document.addEventListener('mouseup', () => {
+			isDragging = false;
+		});
+
 	</script>
 </body>
 
